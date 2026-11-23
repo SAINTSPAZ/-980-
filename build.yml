@@ -1,0 +1,18 @@
+name: Build PinkFX
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -B build -DPINKFX_COPY=OFF
+      - name: Build
+        run: cmake --build build --config Release
+      - name: Upload plugin
+        uses: actions/upload-artifact@v4
+        with:
+          name: PinkFX-VST3-Windows
+          path: build/PinkFX_artefacts/Release/VST3/PinkFX.vst3
